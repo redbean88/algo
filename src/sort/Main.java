@@ -1,6 +1,7 @@
 package sort;
 
 import sort.bubble.BubbleSort;
+import sort.insertion.InsertionSort;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,10 @@ public class Main {
         BubbleSort sort = new BubbleSort(test);
         List<Integer> result = sort.getResult();
         System.out.println("result = " + result);
+
+        InsertionSort sort1 = new InsertionSort(test);
+        List<Integer> result1 = sort1.getResult();
+        System.out.println("result1 = " + result1);
     }
 
 }

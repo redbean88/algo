@@ -5,8 +5,7 @@ import java.util.*;
 public class BubbleSort {
     
     private Integer[] data;
-    private List<Integer> result = new ArrayList<>();
-    
+
     public List<Integer> getResult(){
         solution();
         return Arrays.asList(data);
