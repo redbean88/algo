@@ -1,31 +1,32 @@
-package bfs;
+package dfs;
 
 import java.util.*;
 
-public class BSF {
+public class DFS {
+
 
     public static Map<String, List<String>> graph = new LinkedHashMap<>();
 
     public static void main(String[] args) {
         init();
 
-        Queue<String> result = bsf(graph, "A");
+        Queue<String> result = dfs(graph, "A");
         System.out.println("result = " + result);
     }
 
-    private static Queue<String> bsf(Map<String,List<String>> graph, String start_node) {
-        Queue<String> visited = new LinkedList<>(), need_visited = new LinkedList<>();
+    private static Queue<String> dfs(Map<String, List<String>> graph, String start_node) {
+        Queue<String> visited = new LinkedList<>();
+        Stack<String> need_visited = new Stack<>();
         need_visited.add(start_node);
 
         while (false == need_visited.isEmpty()){
-            String node = need_visited.poll();
+            String node = need_visited.pop();
             if(false == visited.contains(node)){
                 visited.add(node);
-                graph.get(node).stream().forEach(x -> need_visited.add(x));
+                graph.get(node).stream().forEach(x -> need_visited.push(x));
             }
         }
         return visited;
-
     }
 
     private static void init() {
@@ -40,5 +41,4 @@ public class BSF {
         graph.put("I" , Arrays.asList("C","J"));
         graph.put("J" , Arrays.asList("I"));
     }
-
 }
