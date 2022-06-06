@@ -1,10 +1,12 @@
 package mst;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class KrusKal {
+
+    static Map<String, String> parent = new HashMap<>();
+    static Map<String, Integer> rank = new HashMap<>();
+
     public static void main(String[] args) {
         List<Node> edges = new LinkedList<>();
         edges.add(new Node(7,"A","B"));
@@ -37,20 +39,62 @@ public class KrusKal {
         edges.add(new Node(11,"G","F"));
 
         Graph graph =new Graph(edges);
-        System.out.println("graph.getVertices() = " + graph.getVertices());
+        List<Node> mst = solution(graph, "A");
+        mst.forEach(node -> {
+            System.out.println("node.getName() +node.getCname() = " + node.getName() +node.getCname());
+        });
     }
 
-    public List<Node> solution(List<Node> edges, String startNode){
+    public static List<Node> solution(Graph graph, String startNode){
         List<Node> mst = new ArrayList<>();
 
         //초기화
+        makeSet(graph);
 
         //sort
+        Collections.sort(graph.getEdges(),Comparator.reverseOrder());
 
         //사이클 없는 간선 연결
 
+        graph.getEdges().forEach(node -> {
+            if(false == find(node.getName()).equalsIgnoreCase(find(node.getCname()))){ // 같은 루트 부모를 가지는지 확인
+                union(node.getName() , node.getCname());
+                mst.add(node);
+            }
+        });
 
-        return null;
+        return mst;
+    }
+
+    private static void union(String name, String cname) {
+        String root1 = find(name);
+        String root2 = find(cname);
+
+        if(rank.get(root1) > rank.get(root2)){
+            parent.put(root2 , root1);
+        }else{
+            parent.put(root1 , root2);
+            if(rank.get(root1) == rank.get(root2)){
+                Integer rankv = rank.get(root2);
+                rank.put(root2, rankv++);
+            }
+        }
+
+
+    }
+
+    private static String find(String x) {
+        if(false == x.equalsIgnoreCase(parent.get(x))){
+            parent.put(x , find(parent.get(x)));
+        }
+        return parent.get(x);
+    }
+
+    private static void makeSet(Graph graph) {
+        graph.getVertices().forEach(x-> {
+            parent.put(x , x);
+            rank.put(x, 0);
+        });
     }
 }
 
