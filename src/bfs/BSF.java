@@ -25,7 +25,6 @@ public class BSF {
             }
         }
         return visited;
-
     }
 
     private static void init() {
